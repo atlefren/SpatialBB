@@ -5,14 +5,21 @@ var SpatialBB = window.SpatialBB || {};
 
    ns.MarkerModel = Backbone.Model.extend({
 
-       initialize: function () {
-           this.marker = new L.Marker([this.get("position").lat, this.get("position").lon]);
-       },
+        initialize: function () {
+            this.createMarker();
+        },
 
-       getMarker: function () {
+        createMarker: function () {
+            if (this.has("position")) {
+                if (this.get("position").lon && this.get("position").lat) {
+                    this.marker = new L.Marker([this.get("position").lat, this.get("position").lon]);
+                }
+            }
+        },
 
+        getMarker: function () {
            return this.marker;
-       }
+        }
    });
 
 }(SpatialBB));
