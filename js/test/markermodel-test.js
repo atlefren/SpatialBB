@@ -11,14 +11,22 @@
             assert.equals(model.getMarker().getLatLng().lng, 10);
         },
 
-        "should not break when no position": function () {
-            var model = new ns.MarkerModel();
-            assert(model);
+        "should throw MissingPositionError when no position": function () {
+            assert.exception(function () {
+                var model = new ns.MarkerModel();
+            }, "MissingPositionError");
         },
 
-        "should not break on missing lon or lat": function () {
-            var model = new ns.MarkerModel({"position": {"lon": 10}});
-            assert(model);
+        "should throw MissingPositionError on missing lon": function () {
+            assert.exception(function () {
+                var model = new ns.MarkerModel({"position": {"lat": 10}});
+            }, "MissingPositionError");
+        },
+
+        "should throw MissingPositionError on missing lat": function () {
+            assert.exception(function () {
+                var model = new ns.MarkerModel({"position": {"lon": 10}});
+            }, "MissingPositionError");
         }
     });
 }(SpatialBB));
