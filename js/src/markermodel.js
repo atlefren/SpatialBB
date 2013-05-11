@@ -3,7 +3,7 @@ var SpatialBB = window.SpatialBB || {};
 (function (ns, undefined) {
     "use strict";
 
-   ns.MarkerModel = Backbone.Model.extend({
+    ns.MarkerModel = Backbone.Model.extend({
 
         initialize: function () {
             this.createMarker();
@@ -18,8 +18,8 @@ var SpatialBB = window.SpatialBB || {};
         },
 
         getMarker: function () {
-           return this.marker;
+            return this.marker;
         }
-   });
+    });
 
 }(SpatialBB));
