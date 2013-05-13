@@ -1,8 +1,6 @@
 (function (ns) {
     "use strict";
 
-
-
     buster.testCase('MarkerModelTest', {
 
         "should be defined": function () {
