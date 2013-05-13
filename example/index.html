@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>SpatialBB Example</title>
+    <link rel="stylesheet" type="text/css" media="all" href="../css/leaflet/leaflet.css" />
+</head>
+<body>
+    <h1>SpatialBB example</h1>
+    <p>Click the map to add new points, or delete from list..</p>
+    <div id="map" style="width: 500px; height: 500px;">
+
+    </div>
+    <ul id="view">
+
+    </ul>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../js/lib/backbone-min.js"></script>
+    <script type="text/javascript" src="../js/lib/leaflet.js"></script>
+    <script type="text/javascript" src="../js/src/errors.js"></script>
+    <script type="text/javascript" src="../js/src/markermodel.js"></script>
+    <script type="text/javascript" src="../js/src/markercollection.js"></script>
+
+    <script type="text/javascript">
+        (function () {
+            "use strict";
+
+            /* Create a dead simple list view*/
+            var MyListView = Backbone.View.extend({
+
+                initialize: function () {
+                    this.collection.on("add", this.modelAdded, this);
+                },
+
+                modelAdded: function (model) {
+                    this.$el.append(new MyModelView({"model": model}).render().$el);
+                }
+            });
+
+            /*and an ModelView*/
+            var MyModelView = Backbone.View.extend({
+
+                tagName: "li",
+
+
+                events: {
+                    "click .del": "delete"
+                },
+
+                initialize: function () {
+                    _.bindAll(this, "delete");
+                    this.model.on("destroy", this.remove, this);
+                },
+
+                render: function () {
+                    this.$el.html(this.model.get("name") + " <span class='del'>(x)</span>");
+                    return this;
+                },
+
+                "delete": function () {
+                    this.model.destroy();
+                }
+            });
+
+            /*make markers appear*/
+            L.Icon.Default.imagePath = "../css/leaflet/images";
+
+            /*map with base layer*/
+            var map = L.map('map').fitWorld();
+            L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors.',
+                maxZoom: 18
+            }).addTo(map);
+
+
+            /*create a MarkerCollection and add it to map */
+            var markerCollection = new SpatialBB.MarkerCollection();
+            map.addLayer(markerCollection.getLayerGroup());
+
+            /*Add new points to collection on click*/
+            map.on('click', function(e) {
+                var name = prompt("Enter name for point", "point");
+                markerCollection.add(new SpatialBB.MarkerModel({
+                    "name": name,
+                    "position": {"lon": e.latlng.lng, "lat": e.latlng.lat}
+                }));
+            });
+
+            /*Create a listview*/
+            var view = new MyListView({
+                "el": $("#view"),
+                "collection": markerCollection
+            });
+
+            /*Add a couple of points to the map*/
+            markerCollection.add( [
+                new SpatialBB.MarkerModel({
+                    "name":"test1",
+                    "position": {"lon": 10, "lat": 60}
+                }),
+                new SpatialBB.MarkerModel({
+                    "name":"test2",
+                    "position": {"lon": 12, "lat": 60}
+                })
+            ]
+            );
+
+        }());
+    </script>
+</body>
+</html>
