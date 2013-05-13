@@ -39,6 +39,7 @@ var SpatialBB = window.SpatialBB || {};
         getMarker: function () {
             return this.marker;
         }
+
     });
 
 }(SpatialBB));

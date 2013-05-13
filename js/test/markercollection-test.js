@@ -49,6 +49,29 @@
                 i++;
             });
             assert.equals(i, 0);
+        },
+
+        "fetching models from url should work": function () {
+            Backbone.$ = {
+                "ajax": this.stub().yieldsTo(
+                    "success", [
+                        {"position": {"lon": 10, "lat": 61}},
+                        {"position": {"lon": 11, "lat": 61}}
+                    ]
+                )
+            };
+
+            var collection = new ns.MarkerCollection();
+            //collection.model = Backbone.Model;
+            collection.url = "/marker";
+            collection.fetch();
+
+            assert.calledOnce(Backbone.$.ajax);
+            assert.equals(collection.length, 2);
+            assert.equals(collection.at(0).getMarker().getLatLng().lat, 61);
+            assert.equals(collection.at(0).getMarker().getLatLng().lng, 10);
+            assert.equals(collection.at(1).getMarker().getLatLng().lat, 61);
+            assert.equals(collection.at(1).getMarker().getLatLng().lng, 11);
         }
 
     });

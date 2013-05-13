@@ -4,6 +4,7 @@ var SpatialBB = window.SpatialBB || {};
     "use strict";
 
     ns.MarkerCollection = Backbone.Collection.extend({
+
         model: ns.MarkerModel,
 
         initialize: function () {
@@ -22,6 +23,7 @@ var SpatialBB = window.SpatialBB || {};
                 this.getLayerGroup().addLayer(marker);
             }
         },
+
         modelRemoved: function (model) {
             var marker = model.getMarker();
             if (marker) {
