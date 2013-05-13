@@ -9,6 +9,7 @@ var SpatialBB = window.SpatialBB || {};
         initialize: function () {
             this.layerGroup = new L.LayerGroup();
             this.on("add", this.modelAdded, this);
+            this.on("remove", this.modelRemoved, this);
         },
 
         getLayerGroup: function () {
@@ -19,6 +20,12 @@ var SpatialBB = window.SpatialBB || {};
             var marker = model.getMarker();
             if (marker) {
                 this.getLayerGroup().addLayer(marker);
+            }
+        },
+        modelRemoved: function (model) {
+            var marker = model.getMarker();
+            if (marker) {
+                this.getLayerGroup().removeLayer(marker);
             }
         }
     });
