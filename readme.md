@@ -25,6 +25,7 @@ This combination ensures complete interaction between the model and it's spatial
 TODO
 ----
 - Add support for events
+- Support adding raw attributes objects to collection
 
 License
 -------
@@ -32,4 +33,4 @@ SpatialBB is Licensed under the MIT-License, see LICENSE.TXT
 
 Tests
 -----
-The [buster.js](http://www.busterjs.org/) is used for writing the tests for SpatialBB. Be sure to set up buster.js correctly to run tests
+The [buster.js](http://www.busterjs.org/) library is used for writing the tests for SpatialBB. Be sure to set up buster.js correctly to run tests
