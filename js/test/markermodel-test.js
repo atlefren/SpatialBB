@@ -1,7 +1,10 @@
 (function (ns) {
     "use strict";
 
-    buster.testCase('ModelTest', {
+
+
+    buster.testCase('MarkerModelTest', {
+
         "should be defined": function () {
             assert(ns.MarkerModel);
         },
@@ -27,6 +30,29 @@
             assert.exception(function () {
                 var model = new ns.MarkerModel({"position": {"lon": 10}});
             }, "MissingPositionError");
+        },
+
+        "should not throw MissingPositionError when initPos is false": function () {
+            refute.exception(function () {
+                var model = new ns.MarkerModel({}, {"initPos": false});
+            });
+        },
+
+        "should set point on fetch": function () {
+            Backbone.$ = {
+                "ajax": this.stub().yieldsTo(
+                    "success",
+                    {"position": {"lon": 10, "lat": 60}}
+                )
+            };
+
+            var model = new ns.MarkerModel({id: 1}, {"initPos": false});
+            model.urlRoot = "/marker/";
+            model.fetch();
+            assert.calledOnce(Backbone.$.ajax);
+            assert.equals(model.getMarker().getLatLng().lat, 60);
+            assert.equals(model.getMarker().getLatLng().lng, 10);
+
         }
     });
 }(SpatialBB));
