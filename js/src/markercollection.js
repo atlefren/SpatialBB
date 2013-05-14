@@ -11,6 +11,7 @@ var SpatialBB = window.SpatialBB || {};
             this.layerGroup = new L.LayerGroup();
             this.on("add", this.modelAdded, this);
             this.on("remove", this.modelRemoved, this);
+            this.on("reset", this.collectionReset, this);
         },
 
         getLayerGroup: function () {
@@ -23,14 +24,21 @@ var SpatialBB = window.SpatialBB || {};
                 model.createMarker(model.parsePosition());
                 marker = model.getMarker();
             }
-            this.getLayerGroup().addLayer(marker);
+            this.layerGroup.addLayer(marker);
         },
 
         modelRemoved: function (model) {
             var marker = model.getMarker();
             if (marker) {
-                this.getLayerGroup().removeLayer(marker);
+                this.layerGroup.removeLayer(marker);
             }
+        },
+
+        collectionReset: function () {
+            this.layerGroup.clearLayers();
+            this.each(function (model) {
+                this.layerGroup.addLayer(model.getMarker());
+            }, this);
         }
     });
 
