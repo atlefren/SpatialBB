@@ -25,7 +25,6 @@ This combination ensures complete interaction between the model and it's spatial
 TODO
 ----
 - Add support for events
-- Support adding raw attributes objects to collection
 
 License
 -------

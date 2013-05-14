@@ -38,6 +38,17 @@
             assert.equals(i, 2);
         },
 
+        "should be able to add raw attributes objects to collection": function () {
+            var collection = new ns.MarkerCollection();
+            collection.add([{"position": {"lon": 10, "lat": 60}}, {"position": {"lon": 11, "lat": 60}}]);
+
+            var i = 0;
+            collection.getLayerGroup().eachLayer(function (layer) {
+                i++;
+            });
+            assert.equals(i, 2);
+        },
+
         "marker should be deleted from layergroup when model deleted": function () {
             var model = new ns.MarkerModel({"position": {"lon": 10, "lat": 60}});
             var collection = new ns.MarkerCollection();

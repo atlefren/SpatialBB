@@ -19,9 +19,11 @@ var SpatialBB = window.SpatialBB || {};
 
         modelAdded: function (model) {
             var marker = model.getMarker();
-            if (marker) {
-                this.getLayerGroup().addLayer(marker);
+            if (!marker) {
+                model.createMarker(model.parsePosition());
+                marker = model.getMarker();
             }
+            this.getLayerGroup().addLayer(marker);
         },
 
         modelRemoved: function (model) {
