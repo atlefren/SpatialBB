@@ -7,7 +7,14 @@ var SpatialBB = window.SpatialBB || {};
 
         model: ns.MarkerModel,
 
-        initialize: function () {
+        requirePosition: true,
+
+        initialize: function (models, options) {
+            options = options || {};
+            if (_.has(options, "requirePosition")) {
+                this.requirePosition = options.requirePosition;
+            }
+
             this.layerGroup = new L.LayerGroup();
             this.on("add", this.modelAdded, this);
             this.on("remove", this.modelRemoved, this);
@@ -19,6 +26,7 @@ var SpatialBB = window.SpatialBB || {};
         },
 
         modelAdded: function (model) {
+            model.requirePosition = this.requirePosition;
             var marker = model.getMarker();
             if (!marker) {
                 model.createMarker(model.parsePosition());

@@ -5,14 +5,29 @@ var SpatialBB = window.SpatialBB || {};
 
     ns.MarkerModel = Backbone.Model.extend({
 
+        requirePosition: true,
+
         initialize: function (attributes, options) {
-            options = options || {initPos: true};
+
+            if (options && options.collection) {
+                options.requirePosition = options.collection.requirePosition;
+            }
+
+            options = options || {};
+
+            if (!_.has(options, "initPos")) {
+                options.initPos = true;
+            }
+            if (_.has(options, "requirePosition")) {
+                this.requirePosition = options.requirePosition;
+            }
             if (options.initPos) {
                 this.createMarker(this.parsePosition());
             }
         },
 
         parsePosition: function () {
+
             var position = null;
             if (this.has("position")) {
                 position = {
@@ -20,7 +35,7 @@ var SpatialBB = window.SpatialBB || {};
                     "lat": this.get("position").lat || null
                 };
             }
-            if ((!position || !position.lon || !position.lat)) {
+            if ((!position || !position.lon || !position.lat) && this.requirePosition) {
                 throw new ns.MissingPositionError();
             }
             return position;
@@ -34,7 +49,9 @@ var SpatialBB = window.SpatialBB || {};
         },
 
         createMarker: function (position) {
-            this.marker = new L.Marker([position.lat, position.lon]);
+            if (position) {
+                this.marker = new L.Marker([position.lat, position.lon]);
+            }
         },
 
         getMarker: function () {

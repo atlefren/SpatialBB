@@ -40,6 +40,15 @@
             });
         },
 
+        "should not throw MissingPositionError when requirePosition is false": function () {
+            refute.exception(function () {
+                var model = new ns.MarkerModel({}, {"requirePosition": false});
+                refute(model.hasMarker());
+            });
+
+        },
+
+
         "should set point on fetch": function () {
             Backbone.$ = {
                 "ajax": this.stub().yieldsTo(
@@ -56,5 +65,6 @@
             assert.equals(model.getMarker().getLatLng().lng, 10);
 
         }
+
     });
 }(SpatialBB));

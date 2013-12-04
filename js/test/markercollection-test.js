@@ -7,6 +7,7 @@
 
     buster.testCase('MarkerCollectionTest', {
 
+
         "should be defined": function () {
             assert(ns.MarkerCollection);
         },
@@ -120,7 +121,7 @@
                 )
             };
 
-            var collection = new ns.MarkerCollection();
+            var collection = new ns.MarkerCollection({}, {requirePosition: false});
             collection.url = "/marker";
             collection.fetch({"reset": true});
 
