@@ -8,7 +8,8 @@ var SpatialBB = window.SpatialBB || {};
     };
     ns.MissingPositionError.prototype = new Error();
     ns.MissingPositionError.prototype.constructor = ns.MissingPositionError;
-}(SpatialBB));;var SpatialBB = window.SpatialBB || {};
+}(SpatialBB));
+var SpatialBB = window.SpatialBB || {};
 
 (function (ns, undefined) {
     "use strict";
@@ -45,7 +46,6 @@ var SpatialBB = window.SpatialBB || {};
         },
 
         collectionReset: function () {
-
             this.layerGroup.clearLayers();
             this.each(function (model) {
                 if (model.hasMarker()) {
@@ -55,7 +55,8 @@ var SpatialBB = window.SpatialBB || {};
         }
     });
 
-}(SpatialBB));;var SpatialBB = window.SpatialBB || {};
+}(SpatialBB));
+var SpatialBB = window.SpatialBB || {};
 
 (function (ns, undefined) {
     "use strict";
