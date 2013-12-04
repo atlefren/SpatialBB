@@ -13,13 +13,17 @@ var SpatialBB = window.SpatialBB || {};
         },
 
         parsePosition: function () {
+            var position = null;
             if (this.has("position")) {
-                return {
+                position = {
                     "lon": this.get("position").lon || null,
                     "lat": this.get("position").lat || null
                 };
             }
-            return null;
+            if ((!position || !position.lon || !position.lat)) {
+                throw new ns.MissingPositionError();
+            }
+            return position;
         },
 
         parse: function (obj) {
@@ -30,14 +34,15 @@ var SpatialBB = window.SpatialBB || {};
         },
 
         createMarker: function (position) {
-            if ((!position || !position.lon || !position.lat)) {
-                throw new ns.MissingPositionError();
-            }
             this.marker = new L.Marker([position.lat, position.lon]);
         },
 
         getMarker: function () {
             return this.marker;
+        },
+
+        hasMarker: function () {
+            return !!this.marker;
         }
 
     });

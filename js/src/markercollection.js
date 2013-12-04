@@ -37,7 +37,9 @@ var SpatialBB = window.SpatialBB || {};
         collectionReset: function () {
             this.layerGroup.clearLayers();
             this.each(function (model) {
-                this.layerGroup.addLayer(model.getMarker());
+                if (model.hasMarker()) {
+                    this.layerGroup.addLayer(model.getMarker());
+                }
             }, this);
         }
     });

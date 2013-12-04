@@ -1,6 +1,10 @@
 (function (ns) {
     "use strict";
 
+
+    var assert = assert || buster.referee.assert;
+    var refute = refute || buster.referee.refute;
+
     buster.testCase('MarkerCollectionTest', {
 
         "should be defined": function () {
@@ -104,6 +108,30 @@
                 i++;
             });
             assert.equals(i, 2);
+        },
+
+        "fetching models without position from url should work": function () {
+            Backbone.$ = {
+                "ajax": this.stub().yieldsTo(
+                    "success", [
+                        {"position": null, "name": "test"},
+                        {"position": null, "name": "test2"}
+                    ]
+                )
+            };
+
+            var collection = new ns.MarkerCollection();
+            collection.url = "/marker";
+            collection.fetch({"reset": true});
+
+            assert.calledOnce(Backbone.$.ajax);
+            assert.equals(collection.length, 2);
+
+            var i = 0;
+            collection.getLayerGroup().eachLayer(function (layer) {
+                i++;
+            });
+            assert.equals(i, 0);
         }
 
     });

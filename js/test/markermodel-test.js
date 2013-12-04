@@ -1,6 +1,10 @@
 (function (ns) {
     "use strict";
 
+
+    var assert = assert || buster.referee.assert;
+    var refute = refute || buster.referee.refute;
+
     buster.testCase('MarkerModelTest', {
 
         "should be defined": function () {
@@ -46,7 +50,7 @@
 
             var model = new ns.MarkerModel({id: 1}, {"initPos": false});
             model.urlRoot = "/marker/";
-            model.fetch();
+            model.fetch({"reset": true});
             assert.calledOnce(Backbone.$.ajax);
             assert.equals(model.getMarker().getLatLng().lat, 60);
             assert.equals(model.getMarker().getLatLng().lng, 10);
