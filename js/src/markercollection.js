@@ -49,6 +49,14 @@ var SpatialBB = window.SpatialBB || {};
                     this.layerGroup.addLayer(model.getMarker());
                 }
             }, this);
+        },
+
+        getBounds: function () {
+            return L.latLngBounds(_.compact(this.map(function (model) {
+                if (model.hasMarker()) {
+                    return model.getMarker().getLatLng();
+                }
+            })));
         }
     });
 
